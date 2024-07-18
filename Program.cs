@@ -1,6 +1,7 @@
 using LocalizationApp.LocalizationService;
 using LocalizationApp.Middleware;
 using LocalizationApp.Models;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Caching.Memory;
 using System.Globalization;
 
@@ -27,7 +28,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.SupportedUICultures = cultures;
 });
 builder.Services.AddScoped<LocalizationMiddleware>();
-builder.Services.AddTransient<ILocalizationService, LocalizationService>();
+builder.Services.AddScoped<ILocalizationService, LocalizationService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

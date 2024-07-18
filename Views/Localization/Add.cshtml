@@ -1,4 +1,4 @@
-﻿@model LocalizationApp.Models.LocalizationModel
+﻿@model List<LocalizationApp.Models.LocalizationModel>
 
 @{
     ViewData["Title"] = "Add";
@@ -13,15 +13,24 @@
     <div class="col-md-4">
         <form asp-action="Add" method="post" action="/localization/add">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+
             <div class="form-group">
                 <label asp-for="CultureInfo" class="control-label">Culture Info</label>
-                <input asp-for="CultureInfo" name="CultureInfo" class="form-control" />
+                <select class="form-select" name="CultureInfo" aria-label="Default select example">
+                    @foreach (var item in ViewBag.AllCultures)
+                    {
+                        <option value="@item.Name">@item.Text </option>
+
+                    }
+                </select>
                 <span asp-validation-for="CultureInfo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label">Key</label>
                 <input asp-for="Name" name="Name" class="form-control" />
-                <span asp-validation-for="Name"  class="text-danger"></span>
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Value" class="control-label">Value</label>
@@ -32,6 +41,31 @@
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
+    </div>
+    <div class="col-md-8">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Culture Info</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Select((value, i) => new { i, value }))
+                {
+                    var value = item.value;
+                    var index = item.i;
+                    <tr>
+                        <th scope="row">@item.i</th>
+                        <td>@item.value.CultureInfo</td>
+                        <td>@item.value.Name</td>
+                        <td>@item.value.Value</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
 
